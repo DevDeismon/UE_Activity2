@@ -5,10 +5,10 @@ namespace Assets.Scripts
 {
     public class PlayerFpsController : MonoBehaviour
     {
-        [SerializeField] private GameObject _cam;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _hRotationSpeed;
-        [SerializeField] private float _vRotationSpeed;
+        [SerializeField] private GameObject _cam; // Variable that the prefab camera will store
+        [SerializeField] private float _speed; // Movment speed
+        [SerializeField] private float _hRotationSpeed; // Horizontal rotation speed
+        [SerializeField] private float _vRotationSpeed; // Vertical rotation speed
 
         void Start()
         {
