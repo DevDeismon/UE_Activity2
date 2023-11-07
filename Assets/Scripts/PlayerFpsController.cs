@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    [RequireComponent(typeof(CharcterMovment))]
+    [RequireComponent(typeof(MouseLook))]
     public class PlayerFpsController : MonoBehaviour
     {
-        [SerializeField] private GameObject _cam; // Variable that the prefab camera will store
-        [SerializeField] private float _speed; // Movment speed
-        [SerializeField] private float _hRotationSpeed; // Horizontal rotation speed
-        [SerializeField] private float _vRotationSpeed; // Vertical rotation speed
+        private CharcterMovment _characterMovment;
+        private MouseLook _mouseLook;
 
         void Start()
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            GameObject.Find("Capsule").SetActive(false);
+            //GameObject.Find("Capsule").SetActive(false);
+            _characterMovment = GetComponent<CharcterMovment>();
+            _mouseLook = GetComponent<MouseLook>();
         }
 
         void Update()
@@ -25,11 +25,10 @@ namespace Assets.Scripts
 
         private void Rotation()
         {
-            float VCamRotation = Input.GetAxis("Mouse Y") * _vRotationSpeed * Time.deltaTime;
-            float hPlayerRotation = Input.GetAxis("Mouse X") * _hRotationSpeed * Time.deltaTime;
+            float hRotationInput = Input.GetAxis("Mouse X");
+            float vRotationInput = Input.GetAxis("Mouse Y");
 
-            _cam.transform.Rotate(-VCamRotation, 0f, 0f);
-            transform.Rotate(0f, hPlayerRotation, 0f);
+            _mouseLook.HandleRotation(hRotationInput, vRotationInput);
         }
 
         private void Movment()
@@ -37,8 +36,10 @@ namespace Assets.Scripts
             float hMovment = Input.GetAxisRaw("Horizontal");
             float vMovment = Input.GetAxisRaw("Vertical");
 
-            Vector3 movmentDirection = hMovment * Vector3.right + vMovment * Vector3.forward;
-            transform.Translate(movmentDirection * (_speed * Time.deltaTime));
+            bool jumpInput = Input.GetButtonDown("Jump");
+            bool dashInput = Input.GetButton("Dash");
+           
+            _characterMovment.MoveCharacter(hMovment, vMovment, jumpInput, dashInput);
         }
     }
 }
