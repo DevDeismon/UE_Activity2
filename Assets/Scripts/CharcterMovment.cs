@@ -34,7 +34,7 @@ namespace Assets.Scripts
             float deltaTime = Time.deltaTime;
             float dashf = 1f;
 
-            CalculateMoveDirection(hInput, vInput, jump, dash, dashf);
+            CalculateMoveDirection(hInput, vInput, jump, dash, ref dashf);
             ApplyGravity(deltaTime);
             ApplyDrag(deltaTime);
             SmoothMoveDirection();
@@ -80,7 +80,7 @@ namespace Assets.Scripts
             return Mathf.Abs(axis) > 0f;
         }
 
-        private void CalculateMoveDirection(float hInput, float vInput, bool jump, bool dash, float dashf)
+        private void CalculateMoveDirection(float hInput, float vInput, bool jump, bool dash, ref float dashf)
         {
             if (IsGrounded)
             {
@@ -89,7 +89,6 @@ namespace Assets.Scripts
                 if (dash)
                 {
                     dashf = _dashFactor;
-                    Debug.Log(dashf);
                 }
 
                 if (jump)
